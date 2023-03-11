@@ -1,4 +1,6 @@
 package com.example.kotlinbasics
 
-class Work {
+abstract class Work {
+
+    abstract fun goToWork()
 }

@@ -39,7 +39,15 @@ class MainActivity : AppCompatActivity() {
         // enumClasses()
 
         // Clases anidadas
-        nestedAndInnerClasses()
+        // nestedAndInnerClasses()
+
+        // ...
+
+        // Interfaces
+        // interfaces()
+
+        // Modificadores de visibilidad
+        visibilityModifiers()
     }
 
     // 1. Variables y constantes
@@ -508,6 +516,40 @@ class MainActivity : AppCompatActivity() {
 
         val myInnerClass = MyNestedAndInnerClass().MyInnerClass()
         println(myInnerClass.sumOne(1))
+    }
+
+
+
+    private fun interfaces() {
+        /*
+        Las interfaces nos permiten definir una serie de atributos y propiedades que deben ser
+        implementados en las clases que las hereden (Extiendan)
+         */
+
+        // Esto es incorrecto porque la interfaz no almacena nada, debe ser a través de una clase
+        // val game = Game().stream()
+
+//        val person: Person = Person("Sergio", 27)
+        val person: Person = Person("Sergio", 27, "Among Us")
+
+        person.work() // Método de la clase person
+        person.goToWork() // Heredado de clase abstracta Work
+        person.play() // Heredado de interfaz Game
+        person.stream() // Heredado de interfaz Game
+    }
+
+    private fun visibilityModifiers() {
+        /*
+        Las clases, instancias, interfaces, funciones y atributos pueden tener limitaciones en
+        el acceso con los modificadores de visibilidad
+
+        - private
+        - protected
+        - internal
+
+        - public -> Es el valor por defecto, permite que se pueda acceder desde cualquier sitio.
+         */
+
     }
 }
 
