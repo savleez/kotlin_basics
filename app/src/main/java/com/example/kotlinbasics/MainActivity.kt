@@ -47,7 +47,10 @@ class MainActivity : AppCompatActivity() {
         // interfaces()
 
         // Modificadores de visibilidad
-        visibilityModifiers()
+        // visibilityModifiers()
+
+        // Data classes
+        dataclasses()
     }
 
     // 1. Variables y constantes
@@ -543,11 +546,45 @@ class MainActivity : AppCompatActivity() {
         Las clases, instancias, interfaces, funciones y atributos pueden tener limitaciones en
         el acceso con los modificadores de visibilidad
 
-        - private
-        - protected
-        - internal
+        - private -> Permite el acceso solamente desde donde se define
+
+        - protected -> Permite acceder a los métodos y atributos de la clase padre, pero no
+                        desde alguna instancia (Es casi como un private)
+
+        - internal -> Permite visibilidad desde cualquier parte del módulo (En este caso app)
 
         - public -> Es el valor por defecto, permite que se pueda acceder desde cualquier sitio.
+         */
+
+
+        /*
+        No podemos instanciar la clase, ni acceder a sus atributos o métodos porque están definidos
+        como privados y están en un fichero diferente a donde se definieron.
+         */
+        // val privateVisibility = PrivateVisibility()
+        // privateVisibility.name = "Sergio"
+        // privateVisibility.sayMyName()
+
+        /*
+        Si se puede instancias la clase, porque está como pública, pero no se puede ejecutar
+        el método porque está como protected, por lo que solamente se podría ejecutar desde una
+        subclase
+         */
+        val visibility2 = VisibilityTwo()
+        // visibility2.sayMyName2()
+
+        /*
+        Podemos instanciar la clase y acceder al atributo porque estamos en el mismo módulo
+         */
+        val visibility3 = Visibility3()
+        visibility3.sayMyName3()
+        visibility3.age
+
+    }
+
+    private fun dataclasses() {
+        /*
+        Clases que principalmente se utilizan para almacenar información.
          */
 
     }
