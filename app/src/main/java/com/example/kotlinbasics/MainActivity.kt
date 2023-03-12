@@ -3,6 +3,16 @@ package com.example.kotlinbasics
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
+// TypeAlias que puede ser reusado más abajo sin tener que especificar el tipo de dato
+typealias MyMapList = MutableMap<Int, ArrayList<String>>
+
+// type alias de una función donde se especifican los argumentos que recibe y lo que retorna
+typealias  MyFunArgs = (Int, String, MyMapList) -> Boolean
+
+// type alias de una clase aninada
+typealias MyNestedClass = MyNestedAndInnerClass.MyNestedClass
+
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +60,13 @@ class MainActivity : AppCompatActivity() {
         // visibilityModifiers()
 
         // Data classes
-        dataclasses()
+        // dataClasses()
+
+        // Alias de tipos
+        // typeAliases()
+
+        // Desestructuración de datos
+        destructuringDeclarations()
     }
 
     // 1. Variables y constantes
@@ -582,11 +598,117 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun dataclasses() {
+    private fun dataClasses() {
         /*
         Clases que principalmente se utilizan para almacenar información.
          */
 
+        val sergio = Worker("Sergio", 27, "Programador")
+        sergio.lastWork = "CSR"
+        println(sergio.lastWork)
+
+        val mafe = Worker()
+
+        val andres = Worker("Sergio", 27, "Programador")
+        sergio.lastWork = "CSR"
+
+
+        // equals -> Compara dos data classes- Se puede reemplazar por ==
+//        if (sergio.equals(mafe)) { // -> No
+//        if (sergio == mafe) { // -> No
+        if (sergio == andres) { // -> Si
+            println("Son iguales")
+        } else {
+            println("No son iguales")
+        }
+
+        // toString -> Crea una representación en string del data Class
+        println(sergio.toString())
+
+        // copy -> Crea una copia de un objeto, se pueden modificar los atributos
+        val sergio2 = sergio.copy(age = 28)
+        println(sergio.toString())
+        println(sergio2.toString())
+
+        // componentN -> Descomponemos el objeto en sus atributos (ordenados)
+        val (name, age) = sergio // Igual a name = sergio.name y age = sergio.age
+        println(name)
+        println(age)
+    }
+
+
+    private var myMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
+    private fun typeAliases() {
+        /*
+        Se usan para que sea más sencillo ...
+
+        En este caso tenemos una variable myMap con un tipo relativamente complejo, si queremos
+        usar otras variables que tengan ese mismo tipo de dato tendríamos que especificarlo cada
+        vez.
+        En este caso creamos myNewMap del mismo tipo que myMap, le asignamos algunos valores, y
+        reasignamos el valor de myMap.
+         */
+        var myNewMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
+        myNewMap[1] = arrayListOf("Sergio", "Andres")
+        myNewMap[2] = arrayListOf("Sergio2", "Andres2")
+
+        myMap = myNewMap
+
+        /*
+        Para evitarlo podemos crear alias para los tipos de datos al inicio del documento, justo
+        antes de la definición de la clase, usamos la palabra reservada typealias y el nombre del
+        tipo
+         */
+        var myNewNewMap: MyMapList = mutableMapOf(
+            1 to arrayListOf("Sergio", "Andres"),
+            2 to arrayListOf("Sergio2", "Andres2"),
+        )
+
+    }
+
+
+    private fun destructuringDeclarations() {
+        /*
+        Sirve para extraer la información de manera más limpia.
+
+        Permite crear varias variables de una sola vez, usando los atributos de una clase.
+
+        La desestructuración ocurre en el orden en que estén definidos los atributos de la clase,
+        y pueden agregarse a medida que se vayan necesitando.
+         */
+        val sergio = Worker("Sergio", 27, "Programador")
+
+        val (name) = sergio // Solamente se extrae el nombre
+        println(name)
+
+        val (name2, age2) = sergio // Se extraen los primeros dos atributos
+        println("$name2, $age2")
+
+        val (name3, age3, work3) = sergio // Se extraen los 3 atributos
+        println("$name3, $age3, $work3")
+
+        // También se puede hacer desestructuración usando el método component()
+        println(sergio.component1())
+        println(sergio.component2())
+        println(sergio.component3())
+
+        // También se puede hacer sobre el retorno de una función
+        fun myWorker(): Worker {
+            return Worker("Sergio", 27, "Programador")
+        }
+
+        val (name4, age4, work4) = myWorker()
+        println("$name4, $age4, $work4")
+
+        // También se puede aplicar la destructuración en los maps
+        val myMap = mapOf(1 to "Sergio", 2 to "Sergio2", 3 to "Sergio3")
+        for ((key, value) in myMap) {
+            println("Key: $key, value: $value")
+        }
+
+        // Se puede usar el _ para ignorar una propiedad (Como en python)
+        val (name5, _, work5) = sergio // Se extraen los 3 atributos
+        println("$name5, $work5")
     }
 }
 
