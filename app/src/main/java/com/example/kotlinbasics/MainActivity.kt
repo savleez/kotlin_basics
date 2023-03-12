@@ -2,6 +2,8 @@ package com.example.kotlinbasics
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TypeAlias que puede ser reusado más abajo sin tener que especificar el tipo de dato
 typealias MyMapList = MutableMap<Int, ArrayList<String>>
@@ -66,7 +68,13 @@ class MainActivity : AppCompatActivity() {
         // typeAliases()
 
         // Desestructuración de datos
-        destructuringDeclarations()
+        // destructuringDeclarations()
+
+        // Extensiones
+        // extensions()
+
+        // Lambdas
+        lambdas()
     }
 
     // 1. Variables y constantes
@@ -709,6 +717,79 @@ class MainActivity : AppCompatActivity() {
         // Se puede usar el _ para ignorar una propiedad (Como en python)
         val (name5, _, work5) = sergio // Se extraen los 3 atributos
         println("$name5, $work5")
+    }
+
+
+    private fun extensions() {
+        /*
+        Las extensiones son funcionalidades (funciones o atributos) que se le pueden agregar a
+        clases o módulos ya creados sin tener que modificar el código fuente.
+
+        Los modificadores de acceso aplican de igual manera.
+         */
+
+        val myDate = Date()
+        println(myDate.customFormat())
+        println(myDate.formatSize)
+
+        var myDateNullabe: Date? = null
+        println(myDateNullabe?.customFormat())
+        println(myDateNullabe?.formatSize)
+    }
+
+
+    private fun lambdas() {
+        /*
+        Permite definir funciones que pueden trabajar sobre otras funciones
+
+        En este caso filter es una función que itera por cada uno de los elementos de una lista y
+        que requiere que otra función evalúe los valores para ver si cumple una condición
+
+        En este caso se evalúa que cada valor sea mayor a 5
+         */
+        val myIntList = arrayListOf(0,1,2,3,4,5,6,7,8,9,10)
+
+        // Podemos reemplazar el valor por defecto que toma cada elemento con un ->
+        // val newList = myIntList.filter { myInt ->
+        val newList = myIntList.filter {
+            /*
+            Acá podríamos agregar más código. Por ejemplo si además de tener en cuenta los valores
+            que son mayores a 5 queremos incluir el 1, hacemos un return@FUNCION
+             */
+            if (it == 1) {
+                return@filter true
+            }
+
+            it > 5 // No hace falta poner el return, ya lo toma por defecto
+        }
+
+        // println(newList) // -> [6, 7, 8, 9, 10]
+        println(newList) // -> [1, 6, 7, 8, 9, 10]
+
+        // Crear lamba personalizada
+        val mySumFun = fun (x: Int, y: Int): Int {
+            return x + y
+        }
+
+        // Crear lamba personalizada en una sola línea
+        val mySumFun2 = fun (x: Int, y: Int): Int = x + y
+
+        val myMulFun = fun (x: Int, y: Int): Int = x * y
+
+
+        println(mySumFun(1,2))
+        println(myMulFun(1,2))
+    }
+
+    /*
+     Para indicar que una función recibe otra función de argumento debemos especificarlo indicando
+     el nombre que tendrá la función recibida y los tipos de datos que recibe y retorna
+
+     En este caso el argumento se llama myFun, recibe 2 enteros y returna otro entero
+     Luego esta función es utilizada dentro de la función general.
+     */
+    private fun myOperateFun(x: Int, y: Int, myFun: (Int, Int) -> Int) : Int {
+        return myFun(x, y)
     }
 }
 
