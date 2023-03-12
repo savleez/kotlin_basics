@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 // TypeAlias que puede ser reusado más abajo sin tener que especificar el tipo de dato
 typealias MyMapList = MutableMap<Int, ArrayList<String>>
@@ -781,17 +782,68 @@ class MainActivity : AppCompatActivity() {
 
         println(myOperateFun(5, 10, mySumFun))
         println(myOperateFun(5, 10, myMulFun))
+
+        // La función se puede definir en la misma línea, agregando {} para indicar la función anom
+        println(myOperateFun(5, 10) { x, y -> x - y })
+
+        // También se utilizan como callbacks (Funciones que se ejecutan después de alguna acción)
+
+        myAsyncFun("Sergio") {
+            println(it)
+        }
+
+        // Esto se debería ejecutar antes de myAsyncFun porque esta realiza un proceso en otro hilo
+        println("Ejecuciones despues del llamado asincrono")
+        println(mySumFun(1,2))
+        println(myMulFun(1,2))
     }
 
-    /*
-     Para indicar que una función recibe otra función de argumento debemos especificarlo indicando
-     el nombre que tendrá la función recibida y los tipos de datos que recibe y retorna
 
-     En este caso el argumento se llama myFun, recibe 2 enteros y returna otro entero
-     Luego esta función es utilizada dentro de la función general.
-     */
     private fun myOperateFun(x: Int, y: Int, myFun: (Int, Int) -> Int) : Int {
+        /*
+         Para indicar que una función recibe otra función de argumento debemos especificarlo indicando
+         el nombre que tendrá la función recibida y los tipos de datos que recibe y retorna
+
+         En este caso el argumento se llama myFun, recibe 2 enteros y returna otro entero
+         Luego esta función es utilizada dentro de la función general.
+         */
         return myFun(x, y)
+    }
+
+
+    private fun myAsyncFun(name: String, hello: (String) -> Unit) {
+        /*
+        Estamos simulando una función asíncrona, es decir, que se toma un tiempo para realizar una
+        tarea y es independiente de la ejecución principal.
+
+        En este caso creamos un string que va a interpolar el nombre de la variable name, luego
+        se inicia un nuevo hilo de ejecución con la función interna thread {}.
+        Dentro de este nuevo hilo simulamos una tarea esperando 5 segundos, y llamamos a la función
+        hello que recibimos como argumento a modo de callback
+        */
+        val myNewString = "Hello $name"
+
+        /*
+         Se abren los hilos con las nuevas ejecuciones, y se van llamando las funciones lambda
+         como callbacks a medida que los hilos donde son ejecutadas se van terminando.
+
+         En este caso se
+         */
+        thread {
+            Thread.sleep(5000)
+            hello("$myNewString. 5 segundos")
+        }
+
+        thread {
+            Thread.sleep(1000)
+            hello("$myNewString. 1 segundo")
+        }
+
+        thread {
+            Thread.sleep(7000)
+            hello("$myNewString. 7 segundos")
+        }
+
     }
 }
 
