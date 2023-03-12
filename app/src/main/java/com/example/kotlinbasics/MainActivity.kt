@@ -773,12 +773,14 @@ class MainActivity : AppCompatActivity() {
 
         // Crear lamba personalizada en una sola línea
         val mySumFun2 = fun (x: Int, y: Int): Int = x + y
-
         val myMulFun = fun (x: Int, y: Int): Int = x * y
 
-
         println(mySumFun(1,2))
+        println(mySumFun2(1,2))
         println(myMulFun(1,2))
+
+        println(myOperateFun(5, 10, mySumFun))
+        println(myOperateFun(5, 10, myMulFun))
     }
 
     /*
